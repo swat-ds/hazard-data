@@ -25,6 +25,19 @@ S1 name → edit cells → transform
 value.replace(/[Ww]idow.*|,/,'').trim()
 **removes everything after S1 name
 
+S1 name → edit cells → transform
+value.replace(/,?wid[d]ow/,"")
+**removes widow from the S1 name
+
+---for [to m]---
+S1 name → edit cells → transform
+cells.Note.value.split("to m ")[1].replace(/\s{2}.*|,/,'').replace(/\./,"").trim()
+**captures S1 names for [to m]
+
+---for [ami[st]]---
+S1 name → edit cells → transform
+cells.Note.value.split("  ")[0].replace(/dt.*|,|;.*/,'').replace(/\./,"").trim()
+
 **S1 Father**
 
 Note → edit column → add column based on this column → column name: S1 Father
@@ -164,8 +177,32 @@ S1 Previously Married → edit cells → transform
 cells.Note.value.contains(/[Ww]idow/)
 **ran on all cells and filled in blank cells
 
+---for [ami[st]]---
+S1 Previously Married → edit cells → transform
+value.contains(/[Ww]idow/)
+**captured widows under [ami[st]]
 
-******NON-MEMBER****
+
+Should I run this on S1 or S2????
+cells.Note.value.contains(/[Dd]ivorced/)
+**captures divorcees
+
+******FORMER SPOUSES*****
+
+Note → edit column → add column based on this column → column name: S1 Former Spouse(s)
+value.split(/[Ww]idow of/)[1].split("?.")[0]
+
+S1 Former Spouse(s) → edit cells → transform
+cells.Note.value.split(/[Ww]iddow of/)[1].split("?.")[0]
+**captured the S1 Former Spouse's names that appeared after the misspelling of "widow"
+
+value.replace(/,?dec.*|,/,'').replace(/\s{2}.*|,/,'').replace(/\./,"").trim()
+**removes everything after S1 Former Spouse's name
+
+S2 Former Spouse(s)
+**not sure if this is necessary (same as S1 name)
+
+******NON-MEMBER*****
 
 Note → edit column → add column based on this column → column name: S1 Non-Member
 value.contains(/[Ss]he is not a mbr/)
@@ -182,7 +219,18 @@ cells.Note.value.contains(/ [Hh]e is not a mbr/)
 **ran on all cells and filled in blank cells
 
 
+******ORIGINAL MM*****
 
+Note → edit column → add column based on this column → column name: S2 Original MM
+value.split("MM")[0].replace(/\s{2}.*|,/,'').replace(/\.|;/,"").trim()
+
+S2 Original MM → text filter → "belonging" → edit cells → transform
+value.split("to")[1]
+**removed everything before the meeting name
+
+S2 Original MM → edit cells → transform
+cells.Note.value.split("belonging to")[1].split("MM")[0].replace(/\s{2}.*|,/,'').replace(/\.|;/,"").trim()
+**captured a few extraneous cells
 
 
 
