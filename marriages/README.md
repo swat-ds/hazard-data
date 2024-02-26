@@ -20,4 +20,3 @@
 | S2 Non-Member         | True/False: Groom was not a Quaker         |
 | S2 Original MM        | Groom's Monthly Meeting                    |
 | Place of Marriage     | Where the marriage took place              |
-|-----------------------|--------------------------------------------|
