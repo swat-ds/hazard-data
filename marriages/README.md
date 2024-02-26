@@ -1,7 +1,7 @@
 # HAZARD MARRIAGE
 ## ABBREVIATIONS
 
-| Abbreviation          | Expansion                                              |
+| ##Abbreviation        | ## Expansion                                           |
 |-----------------------|--------------------------------------------            |
 | S1 Name               | Bride's Name                                           |
 | S2 Name               | Groom's Name                                           |
