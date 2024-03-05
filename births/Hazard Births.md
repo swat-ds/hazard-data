@@ -228,14 +228,3 @@ value.replace(/.*[Bb]elonging to.*|.*[Ll]ater .*|h of.*|.*ch of|dt of .*/,"")
 
 value.replace(/w of .*|pg.*|now .*/,"")
 
-dt of .*
-
-belonging to
-later .*
-
-with 
-
-.*ch of
-
-w of .*
-pg.*
