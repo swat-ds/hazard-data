@@ -44,6 +44,13 @@ value.replace(/.*w of .*/,"")
 ```
 > removed spouses names that were captured
 
+Father - edit cells - transform
+```
+value.replace(/,?1st|2nd|2d|3rd|3d|4th/,"").replace(/\s{2}.*|,/,'').trim()
+```
+> removes 1st, 2nd, and 3rd from the end of the father's name
+
+
 ----
 ### Mother's Name
 
@@ -226,5 +233,13 @@ value.replace(/[Ss]ee.*|[Dd]ate .*|[Dd]ay .*|.* [Rr]eported .*|.*[Vv]ol .*|.*[Aa
 ```
 value.replace(/.*[Bb]elonging to.*|.*[Ll]ater .*|h of.*|.*ch of|dt of .*/,"")
 
-value.replace(/w of .*|pg.*|now .*/,"")
+value.replace(/w of .*|pg .*|now .*|page .*/,"")
 
+value.replace(/.*[Mm]onth.*/,"")
+
+value.replace(/twin .*/,"")
+
+
+
+****
+name in front of & (i.e. father's surname)
