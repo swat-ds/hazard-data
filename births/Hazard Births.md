@@ -50,6 +50,19 @@ value.replace(/,?1st|2nd|2d|3rd|3d|4th/,"").replace(/\s{2}.*|,/,'').trim()
 ```
 > removes 1st, 2nd, and 3rd from the end of the father's name
 
+----
+### Father's Surname
+
+Father - edit column - add column based on this column - column name: Father Surname
+```
+value.split(/\W+/)[-1]
+```
+
+Father Surname - edit cells - transform
+```
+cells.Father.value.split(/(\w+\s+)+\S[^-]+/)[0].replace(/\w+/,"")
+```
+> if surname was not listed, returns a blank cell
 
 ----
 ### Mother's Name
@@ -69,6 +82,20 @@ Mother - edit cells - transform
 value.replace(/,?1st|2nd|2d|3rd|4th/,"").replace(/\s{2}.*|,/,'').trim()
 ```
 > removes 1st, 2nd, and 3rd from the beginning of the mother's name
+
+----
+### Mother's Surname
+
+Mother - edit column - add column based on this column - column name: Mother Surname
+```
+value.split(/\W+/)[-1]
+```
+
+Mother Surname - edit cells - transform
+```
+cells.Mother.value.split(/(\w+\s+)+\S[^-]+/)[0].replace(/\w+/,"")
+```
+> if surname was not listed, returns a blank cell
 
 ----
 ### Spouse's Name
@@ -123,6 +150,17 @@ value.split(/ [Nn]ow/)[1].replace(/;|:|\. /,"").replace(/\s{2}.*|,/,'').trim()
 ```
 > captures the name after "now"
 
+New Surname - edit cells - transform
+```
+value.replace(/,?1st|2nd|2d|3rd|4th/,"").trim()
+```
+
+New Surname - edit cells - transform
+```
+value.replace(/ &| and/,";")
+```
+> separates different surnames with semi-colons
+
 ---
 ### Spouses Surname
 
@@ -130,31 +168,95 @@ Spouse - edit column - add column based on this column - column name: Spouses Su
 ```
 value.split(/\W+/)[-1]
 ```
-> this is only for the purpose of determining column "Not Surname at Birth"
+
+Spouses Surname - edit cells - transform
+```
+cells.Spouse.value.split(/(\w+\s+)+\S[^-]+/)[0].replace(/\w+/,"")
+```
+> if surname was not listed, returns a blank cell
 
 ----
-### Spouses Surname
+### Surname at Birth
 
 Last Name - edit column - join columns - Last Name, Spouse Surname
 > replace nulls with space ( )
 
-----
-### Surname at Birth?
+Birth Surname (By Spouse) - edit cells - transform
+> write result in new column named Birth Surname (By Spouse)
 
-Not Surname at Birth - edit cells - transform
-> write result in new column named Not Surname at Birth
+Birth Surname (By Spouse) - edit cells - transform
+```
+value.replace(/.*\?.*|.*[Jj][Rr]*/,"").split(/(\w+\s+)+\S[^-]+/)[0].replace(/\w+/,"")
+```
+> removes cells w/ only a single name
+
+> facet by blank - false - for spouse surname and surname at birth to remove all blank cells before running the code
+> facet by text length - greater than 3 - for surname at birth to remove the remaining blank cells
 ```
 filter(value.replace(/\W/," ").ngram(2),n,n.split(" ").uniques().length()!=2).length()>0
 ```
 > returns true if the spouses surname is the same as the last name of their partners
 
 > *explanation:* 
-> - combines the columns Last Name and Spouse Surname into the column Not Surname at Birth
+> - combines the columns Last Name and Spouse Surname into the column Birth Surname (By Spouse)
+> - checks to see if the two names are the same
+> - returns false if the names are the same
+
+Birth Surname (By Spouse) - edit cells - transform
+```
+value.replace(/[^true|false].*/,"")
+```
+> removes any text value that is not "true" or "false"
+
+
+Last Name - edit column - join columns - Last Name, Father Surname
+> replace nulls with space ( )
+
+Birth Surname (By Father) - edit cells - transform
+> write result in new column named Birth Surname (By Father)
+
+Birth Surname (By Father) - edit cells - transform
+```
+value.replace(/.*\?.*|.*[Jj][Rr]*/,"").split(/(\w+\s+)+\S[^-]+/)[0].replace(/\w+/,"")
+```
+> removes cells w/ only a single name
+
+> facet by blank - false - for father surname and surname at birth to remove all blank cells before running the code
+> facet by text length - greater than 3 - for surname at birth to remove the remaining blank cells
+```
+filter(value.replace(/\W/," ").ngram(2),n,n.split(" ").uniques().length()!=2).length()>0
+```
+> returns true if the fathers surname is the same as the last name of their childs
+
+> *explanation:* 
+> - combines the columns Last Name and Father Surname into the column Birth Surname (By Father)
 > - checks to see if the two names are the same
 > - returns true if the names are the same
 
-grandchild/grandson/granddaughter
-foster child
+Birth Surname (By Spouse) - edit cells - transform
+```
+value.replace(/true/,"fae").replace(/false/,"true")
+value.replace(/fae/,"false")
+```
+> this is needed to combine the Birth Surname (By Spouse) column and Birth Surname (By Father) column
+
+
+Last Name - edit column - join columns - Birth Surname (By Spouse), Birth Surname (By Father)
+> replace nulls with space ( )
+
+Surname at Birth - edit cells - transform
+> write result in new column named Surname at Birth
+
+Surname at Birth - edit cells - transform
+```
+value.replace(/\s.*/,"")
+```
+> removes duplicate values of true or false
+
+> *explanation:* 
+> - combines the columns Birth Surname (By Spouse) and Birth Surname (By Father) into the column Surname at Birth
+> - uses two methods (spouses last name and fathers last name) to determine whether or not the birth record list the surname at birth
+
 
 -------
 ## NON-MEMBER
@@ -217,6 +319,13 @@ value.replace(/[Ss]ee.*/,"").replace(/.*[Oo]f /,"")
 > removes "See also.." and "of" from locations
 
 ------
+## IMPORTANT NOTE
+------
+
+> captured all rows that contained data pertaining to slave records
+> these rows were documented to be added to a different dataset and removed from this dataset
+
+------
 ## CHECK FOR ERRORS
 ------
 
@@ -230,16 +339,14 @@ facet - customized facets - text length facet - [insert length]
 All - edit all columns - trim leading and trailing whitespace
 ```
 value.replace(/[Ss]ee.*|[Dd]ate .*|[Dd]ay .*|.* [Rr]eported .*|.*[Vv]ol .*|.*[Aa]lso .*|.*&.*/,"")
+
+value.replace(/.*[Bb]elonging to.*|.*[Ll]ater .*|h of.*|.*ch of|dt of .*|w of .*|s of .*/,"")
+
+value.replace(/twin .*|pg .*|now .*|page .*/,"")
+
+value.replace(/.*[Mm]onth.*|at .*|[Ww]idow|[Nn]ot .*|in .*/,"")
+
+value.replace(/[0-9].*|.*[A-Z][A-Z].*/,"")/,"")
 ```
-value.replace(/.*[Bb]elonging to.*|.*[Ll]ater .*|h of.*|.*ch of|dt of .*/,"")
-
-value.replace(/w of .*|pg .*|now .*|page .*/,"")
-
-value.replace(/.*[Mm]onth.*/,"")
-
-value.replace(/twin .*/,"")
-
-
-
 ****
 name in front of & (i.e. father's surname)
