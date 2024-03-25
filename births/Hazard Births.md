@@ -55,8 +55,10 @@ value.replace(/,?1st|2nd|2d|3rd|3d|4th/,"").replace(/\s{2}.*|,/,'').trim()
 
 Father - edit column - add column based on this column - column name: Father Surname
 ```
-value.split(/\W+/)[-1]
+if(value.split(/\s+/)[-1].contains(/^jr|sr$/i), value.split(/\s+/)[-2], value.split(/\s+/)[-1])
 ```
+> capture the last vin the Father cell
+> if the last value was Jr or Sr, captures the second to last value
 
 Father Surname - edit cells - transform
 ```
@@ -178,7 +180,7 @@ cells.Spouse.value.split(/(\w+\s+)+\S[^-]+/)[0].replace(/\w+/,"")
 ----
 ### Surname at Birth
 
-Last Name - edit column - join columns - Last Name, Spouse Surname
+Last Name - edit column - join columns - Last Name, Spouse Surname - column name: Birth Surname (By Spouse)
 > replace nulls with space ( )
 
 Birth Surname (By Spouse) - edit cells - transform
@@ -209,7 +211,7 @@ value.replace(/[^true|false].*/,"")
 > removes any text value that is not "true" or "false"
 
 
-Last Name - edit column - join columns - Last Name, Father Surname
+Last Name - edit column - join columns - Last Name, Father Surname - column name: Birth Surname (By Father)
 > replace nulls with space ( )
 
 Birth Surname (By Father) - edit cells - transform
@@ -241,7 +243,7 @@ value.replace(/fae/,"false")
 > this is needed to combine the Birth Surname (By Spouse) column and Birth Surname (By Father) column
 
 
-Last Name - edit column - join columns - Birth Surname (By Spouse), Birth Surname (By Father)
+Last Name - edit column - join columns - Birth Surname (By Spouse), Birth Surname (By Father) - column name: Surname at Birth
 > replace nulls with space ( )
 
 Surname at Birth - edit cells - transform
@@ -257,6 +259,25 @@ value.replace(/\s.*/,"")
 > - combines the columns Birth Surname (By Spouse) and Birth Surname (By Father) into the column Surname at Birth
 > - uses two methods (spouses last name and fathers last name) to determine whether or not the birth record list the surname at birth
 
+
+Last Name - add column based off this column - column name: Last Name 2
+
+Last Name 2 - edit cells - transform
+```
+if(value == cells["Mother Surname"].value, true, null)
+```
+> checks if the value in the Last Name 2 cell is the same as the value in the Mother Surname cell
+> if the names are the same, marks true, if they are not, marks null
+
+Last Name - edit column - join columns - Last Name 2, Surname at Birth
+
+> write result in Surname at Birth column
+
+Surname at Birth - edit cells - transform
+```
+value.split(/\W+/)[-1]
+```
+> removes duplicate values of true or false
 
 -------
 ## NON-MEMBER
@@ -349,4 +370,5 @@ value.replace(/.*[Mm]onth.*|at .*|[Ww]idow|[Nn]ot .*|in .*/,"")
 value.replace(/[0-9].*|.*[A-Z][A-Z].*/,"")/,"")
 ```
 ****
-name in front of & (i.e. father's surname)
+if there is a new surname, list surname at birth as true
+filter by Sr and Jr for father surname 
