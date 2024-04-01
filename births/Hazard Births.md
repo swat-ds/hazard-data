@@ -359,16 +359,14 @@ facet - customized facets - text length facet - [insert length]
 
 All - edit all columns - trim leading and trailing whitespace
 ```
-value.replace(/[Ss]ee.*|[Dd]ate .*|[Dd]ay .*|.* [Rr]eported .*|.*[Vv]ol .*|.*[Aa]lso .*|.*&.*/,"")
+value.replace(/ [Ss]ee.*|[Dd]ate .*| [Dd]ay .*|.* [Rr]eported .*|.*[Vv]ol .*|.*[Aa]lso .*|.*&.*|[Aa]ge.*/,"")
 
 value.replace(/.*[Bb]elonging to.*|.*[Ll]ater .*|h of.*|.*ch of|dt of .*|w of .*|s of .*/,"")
 
 value.replace(/twin .*|pg .*|now .*|page .*/,"")
 
-value.replace(/.*[Mm]onth.*|at .*|[Ww]idow|[Nn]ot .*|in .*/,"")
+value.replace(/.*[Mm]onth.*| at .*|[Ww]id+ow| [Nn]ot .*| in .*|.*[Bb]ur.*/,"")
 
 value.replace(/[0-9].*|.*[A-Z][A-Z].*/,"")/,"")
 ```
-****
-if there is a new surname, list surname at birth as true
-filter by Sr and Jr for father surname 
+
