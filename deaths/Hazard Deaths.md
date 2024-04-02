@@ -1,5 +1,4 @@
 # Hazard Deaths
-------- 
 
 create new column - column name: sort
 
@@ -7,9 +6,7 @@ create new column - column name: sort
 random()
 ```
 
-------
 ## DATE
-------
 
 Year - edit column - join columns - Year, Month, Day
 > replace nulls with dash (-)
@@ -22,9 +19,7 @@ value.replace(/--/," ")
 ```
 > gets rid of (--) values
 
----- 
 ## NAMES
-----
 ### Father's Name
 
 Note - edit column - add column based on this column - column name: Father
@@ -43,7 +38,6 @@ value.replace(/,?1st|2nd|2d|3rd|3d|4th/,"").replace(/\s{2}.*|,/,'').trim()
 ```
 > removes 1st, 2nd, and 3rd from the end of the father's name
 
-----
 ### Mother's Name
 
 Note - edit column - add column based on this column - column name: Mother
@@ -62,7 +56,6 @@ value.replace(/,?1st|2nd|2d|3rd|4th/,"").replace(/\s{2}.*|,/,'').trim()
 ```
 > removes 1st, 2nd, and 3rd from the beginning of the mother's name
 
-----
 ### Spouse's Name
 
 Note - edit column - add column based on this column - column name: Spouse(s)
@@ -84,7 +77,6 @@ value.replace(/,?1st|2nd|2d|3rd|4th/,"").trim()
 ```
 > removes 1st, 2nd, and 3rd from the beginning of the spouses' names
 
-----
 ### Sibling's Name
 
 Note - edit column - add column based on this column - column name: Sibling(s)
@@ -94,9 +86,7 @@ value.split(/[Tt]win of /)[1].replace(/\s{2}.*|,/,'').replace(/\.|;/,"").trim()
 > captures twins 
 > there are just over 100 values for this, still capture?
 
--------
 ## NON-MEMBER
--------
 
 Note - edit column - add column based on this column - column name: Non-Member
 ```
@@ -104,9 +94,7 @@ value.contains(/[Nn]ot a mbr/)
 ```
 > captures non-members
 
--------
 ## AGE
--------
 Note - edit column - add column based on this column - column name: Age of Death
 ```
 value.split(/[Aa]ge/)[1].replace(/\s{2}.*|y/,'').replace(/\..*|;.*|,.*/,"").trim()
@@ -129,18 +117,14 @@ value.replace(/d/," days")
 ```
 > states if the date is in days
 
--------
 ## BURIAL LOCATION
--------
 
 Note - edit column - add column based on this column - column name: Burial Location
 ```
 value.split(/Bur; /)[1].replace(/\s{2}.*/,'').replace(/\..*|;.*|,.*/,"").trim()
 ```
 
-------
 ## CLEANUP 
-------
 
 All - edit all columns - trim leading and trailing whitespace
 ```
