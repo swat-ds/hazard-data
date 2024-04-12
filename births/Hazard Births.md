@@ -11,11 +11,24 @@ random()
 ------
 ## DATE
 ------
+Year - facet - customized facets - facet by blank - false
 
 Year - edit column - join columns - Year, Month, Day
 > replace nulls with dash (-)
 
 > write result in new column named Date
+
+Date - edit cells - transform
+```
+value.replace(/--.*/," ")
+```
+> gets rid of (--) values
+
+Date - edit cells - transform
+```
+value.replace(/-$/,"") 
+```
+> gets rid of (-) is there is no day
 
 ---- 
 ## NAMES
