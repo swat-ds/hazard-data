@@ -115,7 +115,7 @@ Children - edit cells - transform
 ```
 value.replace(/ &| and|,/,";")
 ```
-> separates spouses names with semi-colons
+> separates childrens names with semi-colons
 
 ------
 ## Source Meeting
@@ -171,6 +171,14 @@ value.replace(/.*[Mm]onth.*| at .*|[Ww]id+ow| [Nn]ot .*| in .*/,"")
 
 value.replace(/[0-9].*| and.*| [Aa]t .*/,"")
 ```
+
+
+
+** Distinction between whether spouse and children traveled with them
+** Make a column that says true if the spouse/child traveled with the person
+
+
+
 
 
 
