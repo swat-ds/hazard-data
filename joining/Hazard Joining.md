@@ -83,18 +83,6 @@ value.replace(/ &| and|,/,";")
 > separates childrens names with semi-colons
 
 
-*SHOULD I DO THIS (below)*
-
----- 
-## OTHER COMPANIONS
-----
-
-Note - edit column - add column based on this column - column name: Other Companions
-```
-value.split(/with /)[1].replace(/\s{2}.*/,'').replace(/\..*|; .*|, .*|: .*/,"").trim()
-```
-> captures other companions who joined 
-
 ------
 ## CLEANUP 
 ------

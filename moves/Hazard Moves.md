@@ -140,7 +140,7 @@ cells.Note.value.split(/from /)[1].replace(/MM/,"").replace(/\s{2}.*/,"").replac
 ## Destination Meeting
 ------
 
-> for events: gc, gcf, rqct
+> for events: gc, gct, rqct
 
 Note - edit column - add column based on this column - column name: Destination Meeting
 ```
@@ -170,13 +170,9 @@ value.replace(/twin .*|pg .*|now .*|page .*/,"")
 value.replace(/.*[Mm]onth.*| at .*|[Ww]id+ow| [Nn]ot .*| in .*/,"")
 
 value.replace(/[0-9].*| and.*| [Aa]t .*/,"")
+
+value.replace(/ with .*| that Meeting .*| w to .*| and .*/,"")
 ```
-
-
-
-** Distinction between whether spouse and children traveled with them
-** Make a column that says true if the spouse/child traveled with the person
-
 
 
 
