@@ -57,6 +57,24 @@ value.replace(/.* of /,"")
 ```
 > removes extraneous values 
 
+Father - facet - text filter - change 
+```
+value.split(/\s/)[0]
+```
+> include feminine names
+
+Mother - edit cells - transform
+```
+cells.Father.value
+```
+> moves feminine names into the Mother column
+
+Father - edit cells - transform
+```
+value.replace(/.*/,"")
+```
+> removes feminine names from the Father column
+
 ----
 ### Mother's Name
 
@@ -174,7 +192,11 @@ value.replace(/[0-9].*| and.*| [Aa]t .*/,"")
 value.replace(/ with .*| that Meeting .*| w to .*| and .*/,"")
 ```
 
-
+age of death given year
+age of death by age of birth (year of death by year of birth)
+mens year of first marriage
+couples with an unusally large age gap 
+average age of second marriage
 
 
 
