@@ -1,7 +1,7 @@
 from datetime import date
 from typing import List, Optional
 
-class Person:
+class Persona:
     def __init__(self, name: str, birthday: date, deathday: Optional[date] = None):
         self.name = name
         self.birthday = birthday
@@ -10,17 +10,25 @@ class Person:
         self.parents = []
         self.children = []
 
-    def add_sibling(self, sibling: 'Person'):
+    # Add spouses
+    # Add meeting
+    # Add IDs (event ID and unique persona ID)
+    # Break up name (and add phonetic representations):
+        # First name
+        # Last name
+        # Everything in between
+
+    def add_sibling(self, sibling: 'Persona'):
         if sibling not in self.siblings:
             self.siblings.append(sibling)
             sibling.add_sibling(self)  # ensure the sibling also has the current person as a sibling
 
-    def add_parent(self, parent: 'Person'):
+    def add_parent(self, parent: 'Persona'):
         if parent not in self.parents:
             self.parents.append(parent)
             parent.add_child(self)
 
-    def add_child(self, child: 'Person'):
+    def add_child(self, child: 'Persona'):
         if child not in self.children:
             self.children.append(child)
             child.add_parent(self)
@@ -46,10 +54,10 @@ class Person:
 
 # Usage
 if __name__ == "__main__":
-    person1 = Person("A", date(1980, 5, 10))
-    person2 = Person("B", date(1983, 8, 15))
-    person3 = Person("C", date(2010, 1, 20))
-    person4 = Person("D", date(1995, 3, 25), deathday=date(2025, 2, 17))
+    person1 = Persona("A", date(1980, 5, 10))
+    person2 = Persona("B", date(1983, 8, 15))
+    person3 = Persona("C", date(2010, 1, 20))
+    person4 = Persona("D", date(1995, 3, 25), deathday=date(2025, 2, 17))
 
     person1.add_sibling(person2)
     person2.add_parent(person1)
