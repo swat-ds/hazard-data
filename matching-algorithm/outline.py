@@ -22,6 +22,9 @@ for event in events:
 # Do shallow blocking of personas
 personaGroups = []
 
+# Do something here
+
 # Start creating individuals from persona groups
 individuals = []
 
+# Do more in-depth analsysis of persona groups
