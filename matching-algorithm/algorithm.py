@@ -1,22 +1,30 @@
 from datetime import date
 from typing import List, Optional
 
-class Persona:
-    def __init__(self, name: str, birthday: date, deathday: Optional[date] = None):
-        self.name = name
+# Notes:
+#
+# Create an Event class.
+# Change the status from alive vs. dead into something more complex (TBD).
+# Consider adding methods or attributes for comparing parents.
+# James recommends using DictReader class from csv module to read in data.
+# Focus on creating personas from events for now.
+
+class Person:
+    def __init__(self, firstName: str, lastName: str, birthday: Optional[date] = None, deathday: Optional[date] = None):
+        self.firstName = firstName
+        self.lastName = lastName
+        self.additionalNames = []
         self.birthday = birthday
         self.deathday = deathday
         self.siblings = []
         self.parents = []
         self.children = []
+        self.spouses = []
 
-    # Add spouses
     # Add meeting
-    # Add IDs (event ID and unique persona ID)
-    # Break up name (and add phonetic representations):
-        # First name
-        # Last name
-        # Everything in between
+    def add_middle_names(self, additionalNames: 'Person'):
+        if additionalNames not in self.additionalNames:
+            self.additionalNames.append(additionalNames)
 
     def add_sibling(self, sibling: 'Persona'):
         if sibling not in self.siblings:
@@ -33,11 +41,20 @@ class Persona:
             self.children.append(child)
             child.add_parent(self)
 
+    def add_spouse(self, spouse: 'Persona'):
+        if spouse not in self.spouses:
+            self.spouses.append(spouse)
+            spouse.add_spouse(self)
+
     def get_status(self) -> str:
-        if self.deathday:
-            return f"Deceased on {self.deathday}"
+        if self.birthday:
+            print(f"Born on {self.birthday}")
         else:
-            return "Alive"
+            print(f"Date of birth unreported")
+        if self.deathday:
+            print(f"Deceased on {self.deathday}")
+        else:
+            print(f"Date of death unreported")
 
     def __str__(self):
         return f"{self.name}, born {self.birthday}, Status: {self.get_status()}"
@@ -46,10 +63,12 @@ class Persona:
         siblings_names = [sibling.name for sibling in self.siblings]
         parents_names = [parent.name for parent in self.parents]
         children_names = [child.name for child in self.children]
+        spouses_names = [spouses.name for spouses in self.spouses]
         return {
             "siblings": siblings_names,
             "parents": parents_names,
             "children": children_names
+            "spouse(s)": spouses_names
         }
 
 # Usage
