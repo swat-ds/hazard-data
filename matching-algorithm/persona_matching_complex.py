@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 from fuzzywuzzy import fuzz
 from collections import defaultdict
-
+ 
 # Define the Persona class
 class Persona:
     def __init__(self, id, first_name, last_name, note, event, year, month, day, meeting, call_number, volume, page, hazard_index):
@@ -120,8 +120,9 @@ def display_individuals(individuals):
         print(individual)
 
 def main():
-    csv_file_path = '/Users/fionamoon/Downloads/allHazard_thru1937.csv'
+    csv_file_path = 'sample-Hazard-data.tsv' # TODO: Add argument parsing to accept arbitrary CSV
     personas = read_csv_and_create_personas(csv_file_path)
+    # Intermediate step: Create list of blocking groups
     individuals = match_personas(personas)  # Use the new match function
     display_individuals(individuals)
 
