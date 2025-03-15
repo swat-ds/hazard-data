@@ -92,6 +92,40 @@ def loadCSV(filepath):
 
     return data
 
+def makePersonasFromEvent(event):
+    """Given a dict representing an event, return a list of persona objects
+    """
+    # Initialize list of personas that we'll eventually return
+   personas = []
+   
+    # Handle main persona first
+    # (build up a dict, and then feed it into the obj constructor)
+    mainPers = {} 
+    mainPers['eventId'] = event['ID']
+    mainPers['firstName'] = event['First Name']
+    mainPers['lastName'] = event['Last Name']
+    mainPers['meeting'] = event['Meeting']
+    
+ 
+    # Check the following fields for potential personas:
+            # Children
+            # Mother
+            # Father
+            # Spouse(s)
+            # Spouse
+            # S1 name
+            # S1 Father
+            # S1 Mother
+            # S1 former spouse
+            # S2 father
+            # S2 mother
+            # S2 former spouse
+            # Siblings
+
+        # Make a persona for the base person (first name, last name)
+        # Make personas from all the people in the corresponding fields
+        # Make sure the personas are interlinked
+
 
 # Usage
 if __name__ == "__main__":
@@ -116,27 +150,7 @@ if __name__ == "__main__":
     # Load event records from CSV
     events = loadCSV(filepath)
 
-    personas = []
-    for event in events:
-        pass
-        # Check the following fields for potential personas:
-            # Children
-            # Mother
-            # Father
-            # Spouse(s)
-            # Spouse
-            # S1 name
-            # S1 Father
-            # S1 Mother
-            # S1 former spouse
-            # S2 father
-            # S2 mother
-            # S2 former spouse
-            # Siblings
 
-        # Make a persona for the base person (first name, last name)
-        # Make personas from all the people in the corresponding fields
-        # Make sure the personas are interlinked
     personas = []
     for i, event in enumerate(events):
         personas = makePersonasFromEvent(event)
