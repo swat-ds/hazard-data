@@ -97,22 +97,14 @@ def loadCSV(filepath):
 if __name__ == "__main__":
     person1 = Persona(1, "A", 'Moon', 'Goshen', date(1980, 5, 10))
     person2 = Persona(2, "B", 'Sun', 'Goshen', date(1983, 8, 15))
-    person3 = Persona(3, "C", 'Stars', 'Goshen', date(2010, 1, 20))
-    person4 = Persona(4, "D", 'Void', 'Goshen', date(1995, 3, 25),
-     deathdate=date(2025, 2, 17))
 
     person1.add_sibling(person2)
     person2.add_parent(person1)
-    person1.add_child(person3)
 
     print(person1)
     print(f"Family Info: {person1.get_family_info()}")
     print(person2)
     print(f"Family Info: {person2.get_family_info()}")
-    print(person3)
-    print(f"Family Info: {person3.get_family_info()}")
-    print(person4)
-    print(f"Family Info: {person4.get_family_info()}")
 
 
     # Get CSV file path from command line arguments with argparse
