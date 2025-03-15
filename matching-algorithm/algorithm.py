@@ -113,6 +113,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     filepath = args.csvfile
 
+    # Load event records from CSV
     events = loadCSV(filepath)
 
     personas = []
@@ -136,3 +137,20 @@ if __name__ == "__main__":
         # Make a persona for the base person (first name, last name)
         # Make personas from all the people in the corresponding fields
         # Make sure the personas are interlinked
+    personas = []
+    for i, event in enumerate(events):
+        personas = makePersonasFromEvent(event)
+        personas += append(persona)
+        
+
+    # Convert event list into dict with IDs as keys for easy reference
+    events = {event['ID']: event for event in events}
+
+    # Do shallow blocking of personas
+    # TODO: Sort personas by how much information they contain
+    personaBlocks = []
+    # TODO: blocking
+
+    # Create individuals from persona groups
+    individuals = []
+    # TODO: matching within blocks
