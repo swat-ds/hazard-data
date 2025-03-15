@@ -9,27 +9,36 @@ from typing import List, Optional
 # James recommends using DictReader class from csv module to read in data.
 # Focus on creating personas from events for now.
 
-class Person:
-    def __init__(self, firstName: str, lastName: str, birthday: Optional[date] = None, deathday: Optional[date] = None):
+class Persona:
+    def __init__(
+        self, eventId, firstName, lastName, meeting, activeDate, 
+        middleNames='', birthdate=None, deathdate=None
+    ):
+        self.eventId = eventId
         self.firstName = firstName
+        self.middleNames = middleNames
         self.lastName = lastName
+        self.meeting = meeting
+        self.activeDate = activeDate
         self.additionalNames = []
-        self.birthday = birthday
-        self.deathday = deathday
+        self.name = ' '.join([self.firstName, self.middleNames, self.lastName])
+        self.name = self.name.replace('  ', ' ')
+        self.birthdate = birthdate
+        self.deathdate = deathdate
         self.siblings = []
         self.parents = []
         self.children = []
         self.spouses = []
 
-    # Add meeting
-    def add_middle_names(self, additionalNames: 'Person'):
+    def add_middle_names(self, additionalNames: 'Persona'):
         if additionalNames not in self.additionalNames:
             self.additionalNames.append(additionalNames)
 
     def add_sibling(self, sibling: 'Persona'):
         if sibling not in self.siblings:
             self.siblings.append(sibling)
-            sibling.add_sibling(self)  # ensure the sibling also has the current person as a sibling
+            # ensure the sibling also has the current person as a sibling
+            sibling.add_sibling(self)  
 
     def add_parent(self, parent: 'Persona'):
         if parent not in self.parents:
@@ -47,17 +56,19 @@ class Person:
             spouse.add_spouse(self)
 
     def get_status(self) -> str:
-        if self.birthday:
-            print(f"Born on {self.birthday}")
+        if self.birthdate:
+            print(f"Born on {self.birthdate}")
         else:
             print(f"Date of birth unreported")
-        if self.deathday:
-            print(f"Deceased on {self.deathday}")
+        print(f'Active around {self.activeDate}')
+        if self.deathdate:
+            print(f"Deceased on {self.deathdate}")
         else:
             print(f"Date of death unreported")
 
     def __str__(self):
-        return f"{self.name}, born {self.birthday}, Status: {self.get_status()}"
+        msg=f"{self.name}, born {self.birthdate}, Status: {self.get_status()}"
+        return msg
 
     def get_family_info(self):
         siblings_names = [sibling.name for sibling in self.siblings]
@@ -73,10 +84,11 @@ class Person:
 
 # Usage
 if __name__ == "__main__":
-    person1 = Persona("A", date(1980, 5, 10))
-    person2 = Persona("B", date(1983, 8, 15))
-    person3 = Persona("C", date(2010, 1, 20))
-    person4 = Persona("D", date(1995, 3, 25), deathday=date(2025, 2, 17))
+    person1 = Persona(1, "A", 'Moon', 'Goshen', date(1980, 5, 10))
+    person2 = Persona(2, "B", 'Sun', 'Goshen', date(1983, 8, 15))
+    person3 = Persona(3, "C", 'Stars', 'Goshen', date(2010, 1, 20))
+    person4 = Persona(4, "D", 'Void', 'Goshen', date(1995, 3, 25),
+     deathdate=date(2025, 2, 17))
 
     person1.add_sibling(person2)
     person2.add_parent(person1)
