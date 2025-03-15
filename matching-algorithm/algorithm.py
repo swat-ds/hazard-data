@@ -1,5 +1,6 @@
 from datetime import date
 from typing import List, Optional
+import argparse, csv
 
 # Notes:
 #
@@ -103,7 +104,13 @@ if __name__ == "__main__":
     print(person4)
     print(f"Family Info: {person4.get_family_info()}")
 
-    events = [{}, {}] # Load from CSV
+
+    # Get CSV file path from command line arguments with argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('csvfile')
+    args = parser.parse_args()
+    filepath = args.csvfile
+
     personas = []
     for event in events:
         pass
