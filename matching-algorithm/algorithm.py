@@ -83,6 +83,16 @@ class Persona:
             "spouse(s)": spouses_names
         }
 
+def loadCSV(filepath):
+    data = []
+    with open(filepath) as f:
+        reader = csv.DictReader(filepath)
+        for row in reader:
+            data.append(row)
+
+    return data
+
+
 # Usage
 if __name__ == "__main__":
     person1 = Persona(1, "A", 'Moon', 'Goshen', date(1980, 5, 10))
@@ -110,6 +120,8 @@ if __name__ == "__main__":
     parser.add_argument('csvfile')
     args = parser.parse_args()
     filepath = args.csvfile
+
+    events = loadCSV(filepath)
 
     personas = []
     for event in events:
