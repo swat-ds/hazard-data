@@ -129,6 +129,21 @@ def makePersonasFromEvent(event):
 
 # Usage
 if __name__ == "__main__":
+
+    # Define which types of events belong to which categories
+    eventList = {
+        'birthEvents': ['b', 'b ?', 'bapt', 'B', 'bapt'],
+        'deathEvents': ['d', 'dec', 'dec ?', 'bur'],
+        'disciplEvents': ['dis', 'ack', 'relrq', 'com', 'jas', 'con', 'mcd',
+            'rpd', 'mou', 'mos'], 
+            #^TODO^: Consider splitting more finely; handle mcd/mou/mos
+        'familyEvents': ['fam', 'h', 'w', 'ch'],
+        'joiningEvents': ['recrq', 'rst', 'rqcuc'],
+        'marriageEvents': ['m', 'rmt', 'ami', 'amist', 'rm'],
+        'memberEvents': ['mbr', 'mbrp', 'mbr minor', 'mbr ?'],
+        'movemtEvents': ['cert', 'rm', 'rocf', 'prcf'] # TODO: Add rest
+    }
+
     person1 = Persona(1, "A", 'Moon', 'Goshen', date(1980, 5, 10))
     person2 = Persona(2, "B", 'Sun', 'Goshen', date(1983, 8, 15))
 
