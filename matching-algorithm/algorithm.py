@@ -86,7 +86,7 @@ class Persona:
 def loadCSV(filepath):
     data = []
     with open(filepath) as f:
-        reader = csv.DictReader(filepath)
+        reader = csv.DictReader(f, delimiter="\t")
         for row in reader:
             data.append(row)
 
@@ -96,10 +96,11 @@ def makePersonasFromEvent(event):
     """Given a dict representing an event, return a list of persona objects
     """
     # Initialize list of personas that we'll eventually return
-   personas = []
+    personas = []
    
     # Handle main persona first
     # (build up a dict, and then feed it into the obj constructor)
+        # Basic categories:
     mainPers = {} 
     mainPers['eventId'] = event['ID']
     mainPers['firstName'] = event['First Name']
@@ -165,11 +166,10 @@ if __name__ == "__main__":
     # Load event records from CSV
     events = loadCSV(filepath)
 
-
     personas = []
     for i, event in enumerate(events):
-        personas = makePersonasFromEvent(event)
-        personas += append(persona)
+        personaList = makePersonasFromEvent(event, eventTypeList)
+        personas += personaList
         
 
     # Convert event list into dict with IDs as keys for easy reference
