@@ -12,7 +12,7 @@ import argparse, csv
 
 class Persona:
     def __init__(
-        self, eventId, firstName, lastName, meeting, activeDate, 
+        self, eventId, firstName, lastName, meeting, activeDate=None, 
         middleNames='', birthdate=None, deathdate=None
     ):
         self.eventId = eventId
@@ -92,12 +92,15 @@ def loadCSV(filepath):
 
     return data
 
-def makePersonasFromEvent(event):
+def makePersonasFromEvent(event, eventTypeList):
     """Given a dict representing an event, return a list of persona objects
     """
     # Initialize list of personas that we'll eventually return
     personas = []
    
+    # Get the type of event we're handling
+    eventType = event['event']
+
     # Handle main persona first
     # (build up a dict, and then feed it into the obj constructor)
         # Basic categories:
@@ -107,7 +110,16 @@ def makePersonasFromEvent(event):
     mainPers['lastName'] = event['Last Name']
     mainPers['meeting'] = event['Meeting']
     
- 
+        # Dates
+    if eventType in eventTypeList['birthEvents']:
+        mainPers('birthdate') = event['Date']
+    elif eventType in eventTypeList['deathEvents']:
+        mainPers('deathdate') = event['Date']
+    else:
+        mainPers(activeDate) = event['Date']
+
+    return [1,2] #placeholder return value
+
     # Check the following fields for potential personas:
             # Children
             # Mother
@@ -132,7 +144,7 @@ def makePersonasFromEvent(event):
 if __name__ == "__main__":
 
     # Define which types of events belong to which categories
-    eventList = {
+    eventTypeList = {
         'birthEvents': ['b', 'b ?', 'bapt', 'B', 'bapt'],
         'deathEvents': ['d', 'dec', 'dec ?', 'bur'],
         'disciplEvents': ['dis', 'ack', 'relrq', 'com', 'jas', 'con', 'mcd',
