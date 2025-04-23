@@ -1,6 +1,8 @@
-# Discipline_HazardThru37 Transformation History
+# Moon Discipline Moves (2)
 
-This document outlines the steps taken during the data cleaning and extraction process using OpenRefine.
+This document outlines the second attempt at matching with GREL regular expressions. 
+The first 5 entries are previously existing fields which have been updated using feedback.
+Entries 6-8 are new and attempt to capture the surnames of father, mother, and spouse entries, when possible.
 
 ## Column Additions
 
@@ -8,54 +10,64 @@ This document outlines the steps taken during the data cleaning and extraction p
 - **Source column:** `Note`
 - **GREL expression:**
   ```grel
-  value.match(/.*(mcd|mou|mos|jas).*/).toString()
+  value.match(/\b.*(mcd|mou|mos|jas).*/)[0]
   ```
-- **Description:** Created a new column `Reason` capturing keywords such as `mcd`, `mou`, `mos`, and `jas` from the `Note` field.
+- **Description:** Created a new column `Reason` to capture keywords like `mcd`, `mou`, `mos`, or `jas`.
 
 ### 2. Extracted Previous Surname
 - **Source column:** `Note`
 - **GREL expression:**
   ```grel
-  value.match(/.*(latel?y?|formerl?y?)\s+(.*?)(?=[.;]).*/)[1].toString()
+  value.match(/.*\b(form|late)\w*\s(([A-Z](\w+|\.?)+)?\s?(([A-Z](\w+|\.?)+)?).*/)[2]
   ```
-- **Description:** Extracted previous surnames based on terms like `formerly` or `lately`.
+- **Description:** Extracted previous surname using indicators such as `formerly` or `late`.
 
 ### 3. Extracted Father's Name
 - **Source column:** `Note`
 - **GREL expression:**
   ```grel
-  value.match(/.*\b(dt|s|ch)\s+of\s+(.*?)(?=[;&]).*/)[1].toString()
+  value.match(/.*\b((?i)s|dt|ch)\s+of\s+([A-Z]\w+).*/)[1]
   ```
-- **Description:** Identified the father's name when patterns like `dt of`, `s of`, or `ch of` were present.
+- **Description:** Identified the father's name from structured mentions like `s of`, `dt of`, or `ch of`.
 
 ### 4. Extracted Mother's Name
 - **Source column:** `Note`
 - **GREL expression:**
   ```grel
-  value.match(/.*\b(dt|s|ch)\s+of\s+(.*?)\s+&\s+(.*?)(?=[;&]).*/)[2].toString()
+  value.match(/.*\b((?i)s|dt|ch)\s+of\s+([A-Z]\w+)\s*([A-Z](\w+|\.)+)*\s+(&|and)\s+([A-Z]\w+).*/)[5]
   ```
-- **Description:** Pulled the mother's name when two parents were listed with an ampersand.
+- **Description:** Captured the mother’s name when mentioned alongside the father using `&` or `and`.
 
 ### 5. Extracted Spouse
 - **Source column:** `Note`
 - **GREL expression:**
   ```grel
-  value.match(/.*\b(w|h|mou|mos|mcd);?\s+t?o?f?w?i?t?h?\s+(.*?)(?=[.;]).*/)[1].toString()
+  value.match(/.*(?:\b(w|h)\s*o?f?|(?:mcd|mou|mos)\W\s*(?:to|with))\s*([A-Z]\w*).*/)[1]
   ```
-- **Description:** Captured the spouse's name, accounting for abbreviations like `w`, `h`, `mos`, etc.
+- **Description:** Added a `Spouse` column capturing mentions of a spouse via patterns like `w of`, `h of`, or `mcd to`.
 
-### 6. Extracted Meeting Involvement
+### 6. Extracted Father's Surname
 - **Source column:** `Note`
 - **GREL expression:**
   ```grel
-  value.match(/.*(Minute|at)\s+t?f?r?o?m?(.*?)\s+(MM)(?=[.;]).*/)[1].toString()
+  value.match(/.*\b((?i)s|dt|ch)\s+of\s+([A-Z]\w+)\s+([A-Z]\w*).*/)[2]
   ```
-- **Description:** Extracted mentions of Monthly Meetings (`MM`) and involvement (e.g., “Minute to…” or “at…”).
+- **Description:** Extracted the father’s surname when given as two capitalized names.
 
----
+### 7. Extracted Mother's Surname
+- **Source column:** `Note`
+- **GREL expression:**
+  ```grel
+  value.match(/.*\b((?i)s|dt|ch)\s+of\s+([A-Z]\w+)\s*([A-Z](\w+|\.)+)*\s+(&|and)\s+([A-Z]\w+)\s+([A-Z]\w*).*/)[6]
+  ```
+- **Description:** Extracted the mother’s surname when mentioned with the father’s name in full.
 
-## Column Reordering
-
-Reordered the columns to fit the order provided on the work plan.
+### 8. Extracted Spouse's Surname
+- **Source column:** `Note`
+- **GREL expression:**
+  ```grel
+  value.match(/.*(?:\b(w|h)\s*o?f?|(?:mcd|mou|mos)\W\s*(?:to|with))\s*([A-Z]\w*)\s*([A-Z]\w*).*/)[2]
+  ```
+- **Description:** Added a `Spouse's Surname` column when both the first and last name of a spouse appeared.
 
 ---
